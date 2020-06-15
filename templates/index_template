@@ -23,3 +23,6 @@ try {
 	<H2>_CONTAINER_STORE_1_ is working perfectly, you can now go to import all the files</H2>
 </body>
 </html>
+
+<?php
+echo phpinfo();

@@ -57,7 +57,7 @@ services:
     networks:
       - dockernet
   php-fpm:
-    image: nanoninja/php-fpm:7.1.14
+    build: etc/php
     restart: always
     volumes:
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
