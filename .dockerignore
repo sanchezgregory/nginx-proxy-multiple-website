@@ -1,6 +1,7 @@
-db*
-wp*
+etc/ssl/*
+etc/nginx/sites-available/*
+mysqldb/*
 .git
-logs
+logs/*
 nginx*
-php*
+www_*
