@@ -1,22 +1,14 @@
 ###############################################################
-####### Configuracion Nginx para _CONTAINER_STORE_1_ ##########
+####### Configuracion Nginx para icbc ##########
 ###############################################################
-upstream _CONTAINER_STORE_1_ {
-    server  _CONTAINER_STORE_1_.com;  
-}
-
-server {
-  listen 80;
-  server_name _CONTAINER_STORE_1_.com;
-  root /var/www/html/www__CONTAINER_STORE_1_;
-  index index.html index.htm index.php;
-  return 301 https://_CONTAINER_STORE_1_.com$request_uri;   
+upstream icbc {
+    server  icbc.com;  
 }
 
 server {
 
   listen 443 ssl;
-  server_name _CONTAINER_STORE_1_.com;
+  server_name icbc.com;
   fastcgi_param HTTPS on;
 
   ssl_certificate /etc/ssl/server.pem;
@@ -26,16 +18,15 @@ server {
   index index.php index.html;
   error_log  /var/log/nginx/error.log;
   access_log /var/log/nginx/access.log;
-
-  root /var/www/html/www__CONTAINER_STORE_1_;
+  root /var/www/html/www_icbc;
 
   location \ {
-    proxy_pass  http://_CONTAINER_STORE_1_;
+    proxy_pass  http://icbc;
     include /etc/nginx/includes/proxy.conf;
     try_files $uri $uri/ /index.php?q=$uri&$args;
   }
   location ~ \.php$ {
-    fastcgi_pass store__CONTAINER_STORE_1_:9000;
+    fastcgi_pass store_icbc:9000;
     include /etc/nginx/includes/site.conf;
   }
   include /etc/nginx/includes/generalsite.conf;

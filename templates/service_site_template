@@ -1,3 +1,4 @@
+
   store__CONTAINER_STORE_1_:
     image: nanoninja/php-fpm:7.1.14
     restart: always

@@ -4,3 +4,5 @@ store_*/*
 !logs/.gitkeep
 stores_done.txt
 www_*
+etc/nginx/sites-available/*
+etc/nginx/sites-enabled/*
