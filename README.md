@@ -1,8 +1,8 @@
-## Multi Sites Docker with nginx revere configuration
+## Multi Sites Docker with nginx reverse configuration
 
 Configura multiples sites con una misma intancia de Docker
 
-### Considerations
+### Consiraciones
 
 1. Usa una sola imagen de php-fpm sin importar la cantidad de proyectos ya que usa para cada uno de los proyecto de manera individual, una imagen de docker conocida como tianon, solo son 125 bytes para permitir levantar un servicio que permite montar volumenes.  También usa una sola imagane de mysql, y el servicio de php-fpm lo usa para todos sus proyectos individuales.
 
@@ -15,11 +15,11 @@ Configura multiples sites con una misma intancia de Docker
 5. Para cada nuevo entorno, de debe bajar el docker:  docker-compose down y luego ejecutar el script. Finalmente levantar el docker.
 
 
-### Add More Sites
+### Agregando mas sitios
 
-Port 9000 is used by `fastcgi_pass`. Do not set port to 9000 for visualizer.
+Ejecuta el script para agregar otro proyecto, recuerda que no se usan puertos y que el puerto 9000 lo usa `fastcgi_pass`. y el 9000 for `visualizer`
 
-## Installation
+## Instalacion
 
 * Install Docker
 * Install Docke-comoopose
@@ -33,9 +33,7 @@ Dentro de templates, están las plantillas que se necesitan para ir generando nu
 ## License
 A short snippet describing the license (MIT, Nginx, php etc)
 
-MIT © [Yourname]()
-
-#### Ports
+#### Puertos
 
 Los puertos utilizados son el 3000 para el acceso de la BD desde afuera del docker, por ejemplo desde workbench usando el server name 127.0.0.1, el user y el password es root
 
@@ -119,7 +117,6 @@ Los logs de accesos y errores de Nginx se encuentran mapeados en logs, en el roo
            define('_DB_PASSWD_', 'root');
    10.- Crear el .htaccess  (touch .htaccess,  chmod 777 .htaccess)
 
-## FIN PASOS ENTORNO 1.6
 
 ## Credits
 Gregory Sánchez
