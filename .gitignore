@@ -2,3 +2,5 @@ mysqldb/*
 logs/*
 store_*/*
 !logs/.gitkeep
+stores_done.txt
+www_*

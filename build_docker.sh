@@ -30,8 +30,8 @@ while [[ $response -eq "true" ]]; do
 
         else
            echo $STORE >> stores_done.txt
-           cat templates/template_nginx >> etc/nginx/nginx.dev.conf
-           cat templates/store_container_template >> docker-compose.yml
+           cat templates/nginx_template >> etc/nginx/nginx.dev.conf
+           cat templates/service_site_template >> docker-compose.yml
            sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' etc/nginx/nginx.dev.conf
            sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' docker-compose.yml
            mkdir www_$STORE
