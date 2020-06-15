@@ -10,8 +10,6 @@ services:
     build: ./etc/nginx
     depends_on:
       - mysqldb
-      - store_icbc
-      - store_bbva
     restart: always
     volumes:
       - ./etc/ssl:/etc/ssl
@@ -20,15 +18,13 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
-      - ./www_icbc:/var/www/html/www_icbc
-      - ./www_bbva:/var/www/html/www_bbva
     ports:
       ## for development only
       - 80:80
       - 443:443
     networks:
       - dockernet
-    #command: bash -c "ln -s etc/nginx/sites-available/*.conf etc/nginx/sites-enabled/"
+    #command: bash -c "ln -sf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/"
     deploy:
       placement:
         constraints:
@@ -59,28 +55,3 @@ services:
     networks:
       - dockernet
   # Proyects
-
-  store_icbc:
-    image: nanoninja/php-fpm:7.1.14
-    restart: always
-    volumes:
-      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
-      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-      - "./www_icbc:/var/www/html/www_icbc"
-    depends_on:
-      - mysqldb
-    working_dir: /var/www/html/www_icbc
-    networks:
-      - dockernet
-  store_bbva:
-    image: nanoninja/php-fpm:7.1.14
-    restart: always
-    volumes:
-      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
-      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-      - "./www_bbva:/var/www/html/www_bbva"
-    depends_on:
-      - mysqldb
-    working_dir: /var/www/html/www_bbva
-    networks:
-      - dockernet
