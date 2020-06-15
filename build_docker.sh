@@ -36,7 +36,10 @@ while [[ $response -eq "true" ]]; do
            mkdir www_$STORE
            cat templates/index_template >> www_$STORE/index.php
            sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' www_$STORE/index.php
+           sed -i 's/#new_services/- store_'"$STORE"'\n      #new_services/g' docker-compose.yml
+           sed -i 's|#new_volumens|- ./www_'"$STORE"':/var/www/html/www_'"$STORE"'\n      #new_volumens|g' docker-compose.yml
            chown www-data. etc/nginx/sites-available/*
+           chown www-data. www_*
            echo "127.0.0.1   ${STORE}.com" >> /etc/hosts
         fi
         

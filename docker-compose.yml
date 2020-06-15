@@ -10,6 +10,7 @@ services:
     build: ./etc/nginx
     depends_on:
       - mysqldb
+      #new_services
     restart: always
     volumes:
       - ./etc/ssl:/etc/ssl
@@ -18,6 +19,7 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
+      #new_volumens
     ports:
       ## for development only
       - 80:80
