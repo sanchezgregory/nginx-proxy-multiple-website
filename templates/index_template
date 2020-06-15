@@ -16,10 +16,10 @@ try {
 <html>
 <head>
 	<title>
-		ICBC STORE
+		ENTORNO DE _CONTAINER_STORE_1_
 	</title>
 </head>
 <body>
-	<H2>ICBC working</H2>
+	<H2>_CONTAINER_STORE_1_ is working perfectly, you can now go to import all the files</H2>
 </body>
 </html>

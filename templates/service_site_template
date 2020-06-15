@@ -1,0 +1,12 @@
+store__CONTAINER_STORE_1_:
+    image: nanoninja/php-fpm:7.1.14
+    restart: always
+    volumes:
+      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
+      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
+      - "./www__CONTAINER_STORE_1_:/var/www/html/www__CONTAINER_STORE_1_"
+    depends_on:
+      - mysqldb
+    working_dir: /var/www/html/www__CONTAINER_STORE_1_
+    networks:
+      - mynet

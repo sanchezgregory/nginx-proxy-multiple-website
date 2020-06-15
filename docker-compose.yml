@@ -1,60 +1,10 @@
 version: '3'
 
+networks:
+  mynet:
+    external: true
+
 services:
-  # databases
-  mysqldb:
-    image: mysql:5.7
-    restart: always
-    ports:
-      - 3000:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: stores
-      MYSQL_PASSWORD: stores
-    volumes:
-      - ./mysqldb:/var/lib/mysql
-    networks:
-      - mynet
-  # Proyecto_1
-  store1:
-    image: nanoninja/php-fpm:7.1.14
-    restart: always
-    volumes:
-      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
-      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-      - "./store1:/var/www/html/store1"
-    depends_on:
-      - mysqldb
-    ports:
-      - "8000:8000"
-    environment:
-      store1_DB_HOST: mysqldb:3000
-      store1_DB_USER: developer
-      store1_DB_PASSWORD: developer
-      store1_DB_NAME: store1
-    working_dir: /var/www/html/store1
-    networks:
-      - mynet
-  # Proyecto_2
-  store2:
-    image: nanoninja/php-fpm:7.1.14
-    restart: always
-    volumes:
-      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
-      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-      - "./store2:/var/www/html/store2"
-    depends_on:
-      - mysqldb
-    ports:
-      - "8001:8001"
-    environment:
-      store2_DB_HOST: mysqldb:3000
-      store2_DB_USER: developer
-      store2_DB_PASSWORD: developer
-      store2_DB_NAME: store2
-    working_dir: /var/www/html/store2
-    networks:
-      - mynet
   # nginx
   web:
     image: nginx
@@ -82,7 +32,6 @@ services:
         constraints:
           - node.role == manager
       replicas: 1
-  
   # visualizer
   visualizer:
     image: dockersamples/visualizer
@@ -93,6 +42,18 @@ services:
     ## NOTE: you may want to add more security features to prevent easy access on production
     ports:
       - 9999:8080
-networks:
-  mynet:
-    external: true
+  # databases
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3000:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: stores
+      MYSQL_PASSWORD: stores
+    volumes:
+      - ./mysqldb:/var/lib/mysql
+    networks:
+      - mynet
+  # Proyects
