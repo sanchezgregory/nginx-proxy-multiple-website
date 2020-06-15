@@ -56,4 +56,15 @@ services:
       - ./mysqldb:/var/lib/mysql
     networks:
       - dockernet
+  php-fpm:
+    image: nanoninja/php-fpm:7.1.14
+    restart: always
+    volumes:
+      - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      #new_volumens
+    depends_on:
+      - mysqldb
+    networks:
+      - dockernet
   # Proyects
