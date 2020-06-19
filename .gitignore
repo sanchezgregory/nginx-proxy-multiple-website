@@ -5,3 +5,5 @@ www_*/*
 stores_done.txt
 www_*
 etc/nginx/sites-available/*
+cache/*
+supervielle

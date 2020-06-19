@@ -1,15 +1,15 @@
 FROM php:7.1.14-fpm
 #FROM php:7.3.6-fpm
 RUN apt-get update && apt-get install -y \
-	libzip-dev \
+    libzip-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
-		libcurl4-gnutls-dev \
-		libxml2-dev \
-		libbz2-dev \
-		re2c \
-		libpng++-dev \
+        libcurl4-gnutls-dev \
+        libxml2-dev \
+        libbz2-dev \
+        re2c \
+        libpng++-dev \
         libjpeg-dev \
         libvpx-dev \
         zlib1g-dev \
@@ -22,34 +22,34 @@ RUN apt-get update && apt-get install -y \
         file \
         libssh2-1-dev \
         git \
-        wget	\
-		sqlite3	\
-		libsqlite3-dev \
-		libgmp-dev \
+        wget    \
+        sqlite3 \
+        libsqlite3-dev \
+        libgmp-dev \
 
 
-	&& docker-php-ext-install json \
-	&& docker-php-ext-install mbstring \
-	&& docker-php-ext-install tokenizer \
+    && docker-php-ext-install json \
+    && docker-php-ext-install mbstring \
+    && docker-php-ext-install tokenizer \
     && docker-php-ext-install gmp \
     && docker-php-ext-install gd \
-	&& docker-php-ext-install curl \
-	&& docker-php-ext-install dom \
-	&& docker-php-ext-install bz2 \
-	&& docker-php-ext-install mysqli \
-	&& docker-php-ext-install pcntl \
-	&& docker-php-ext-install pdo \
-	&& docker-php-ext-install pdo_mysql \
-	&& docker-php-ext-install phar \
-	&& docker-php-ext-install posix \
-	&& docker-php-ext-install simplexml \
-	&& docker-php-ext-install soap \
-	&& docker-php-ext-install sockets \
-	&& docker-php-ext-install tidy \
-	&& docker-php-ext-install zip \
-	&& docker-php-ext-install bcmath \
-	&& docker-php-ext-install calendar \
-	&& docker-php-ext-install ctype \
-	&& docker-php-ext-install exif \
-	&& docker-php-ext-install pcntl \
-	&& docker-php-ext-install pdo_sqlite
+    && docker-php-ext-install curl \
+    && docker-php-ext-install dom \
+    && docker-php-ext-install bz2 \
+    && docker-php-ext-install mysqli \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install phar \
+    && docker-php-ext-install posix \
+    && docker-php-ext-install simplexml \
+    && docker-php-ext-install soap \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-install tidy \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install calendar \
+    && docker-php-ext-install ctype \
+    && docker-php-ext-install exif \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install pdo_sqlite
