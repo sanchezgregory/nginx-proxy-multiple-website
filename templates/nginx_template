@@ -38,5 +38,10 @@ server {
     fastcgi_pass php-fpm:9000;
     include /etc/nginx/includes/site.conf;
   }
+  location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml)$ {
+    access_log        off;
+    log_not_found     off;
+    expires           360d;
+  }
   include /etc/nginx/includes/generalsite.conf;
 }

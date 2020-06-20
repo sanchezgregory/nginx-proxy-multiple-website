@@ -1,21 +1,20 @@
-FROM ubuntu:18.04
-MAINTAINER Gregory Sanchez <mcgregox@gmail.com>
+FROM alpine
 
-#Install Nginx
+MAINTAINER EgoFelix <docker@egofelix.de>
 
-RUN apt-get update \
-    && apt-get install -y software-properties-common \
-    && apt-add-repository -y ppa:nginx/stable \
-    && apt-get update \
-    && apt-get install -y nginx \
-    && rm -rf /var/lib/apt/lists/*
+# Install nginx
+RUN apk --no-cache add \
+    nginx nginx-mod-stream \
+    && \
+    mkdir -p /run/nginx/ /etc/nginx/sites-enabled/ /var/log/nginx/ && \
+    touch /etc/nginx/global.conf && \
+    touch /etc/nginx/modules.conf
 
-RUN rm /etc/nginx/sites-enabled/default
-RUN rm /etc/nginx/sites-available/default
+# Install config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
+VOLUME ["/etc/nginx/site-enabled", "/etc/nginx/includes", "/etc/nginx/certs", "/etc/nginx/conf"]
 
-EXPOSE 80 443
-
-CMD ["nginx", "-g", "daemon off;"]
+# Entry
+HEALTHCHECK  --interval=30s --timeout=5s CMD wget --quiet --tries=1 --spider http://127.0.0.1/ || exit 1
+ENTRYPOINT /usr/sbin/nginx -g 'daemon off;'
