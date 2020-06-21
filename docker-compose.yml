@@ -38,12 +38,13 @@ services:
       - dockernet
   # databases
   mysqldb:
-    image: mysql:5.7
+    build: etc/mysql
     restart: always
     ports:
       - 3000:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE : stores
       MYSQL_USER: stores
       MYSQL_PASSWORD: stores
     volumes:
