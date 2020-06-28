@@ -13,14 +13,13 @@ services:
   #nginx
   nginx:
     build: etc/nginx
+    container_name: nginx
     restart: always
     ports:
       - '80:80'
       - '443:443'
     depends_on:
       - mysqldb
-      - store_icbc
-      - store_spv
       #new_services
     volumes:
       - cache:/var/cache
@@ -31,14 +30,13 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./templates/backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
-      - ./www_icbc:/var/www/html/www_icbc
-      - ./www_spv:/var/www/html/www_spv
       #new_volumens
     networks:
       - dockernet
   # databases
   mysqldb:
     build: etc/mysql
+    container_name: mysqldb
     restart: always
     ports:
       - 3000:3306
@@ -53,32 +51,15 @@ services:
       - dockernet
   php-fpm:
     build: etc/php
+    container_name: php-fpm
     restart: always
     volumes:
       - ./cache:/var/cache
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./www_icbc:/var/www/html/www_icbc
-      - ./www_spv:/var/www/html/www_spv
       #new_volumens
     depends_on:
       - mysqldb
     networks:
       - dockernet
   #Proyects
-  store_icbc:
-    image: tianon/true #minimal image
-    depends_on:
-      - php-fpm
-      - mysqldb
-    working_dir: /var/www/html/www_icbc
-    networks:
-      - dockernet
-  store_spv:
-    image: tianon/true #minimal image
-    depends_on:
-      - php-fpm
-      - mysqldb
-    working_dir: /var/www/html/www_spv
-    networks:
-      - dockernet

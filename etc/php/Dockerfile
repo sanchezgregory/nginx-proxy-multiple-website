@@ -13,7 +13,7 @@ RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev lib
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
     && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
-    && docker-php-ext-install -j${NPROC} gd mcrypt pdo pdo_mysql pdo_sqlite soap bcmath mbstring \
+    && docker-php-ext-install -j${NPROC} gd mcrypt pdo pdo_mysql pdo_sqlite soap bcmath mbstring opcache \
     && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev \
     && docker-php-source extract delete \
     && apk del --no-cache freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
@@ -24,6 +24,7 @@ RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev lib
 
 ADD www.conf /usr/local/etc/php-fpm.d/
 COPY php.ini /usr/local/etc/php/
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 USER www-data
 
