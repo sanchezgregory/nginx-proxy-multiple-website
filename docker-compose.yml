@@ -20,6 +20,7 @@ services:
       - '443:443'
     depends_on:
       - mysqldb
+      - php-fpm
       #new_services
     volumes:
       - cache:/var/cache

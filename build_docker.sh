@@ -10,6 +10,7 @@ then
 fi
 
 response="true"
+EXT="com"
 
 echo ""
 OPCIONES=$(ls | grep rsync_)
@@ -32,9 +33,10 @@ if [ chrlen=${#STORE} \> 0 ]; then
 
     else
        echo $STORE >> stores_done.txt
-       cat templates/nginx_template >> etc/nginx/sites-available/$STORE.com
+       cat templates/nginx_template >> etc/nginx/sites-available/$STORE.$EXT
        cat templates/service_site_template >> docker-compose.yml
-       sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' etc/nginx/sites-available/$STORE.com
+       sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' etc/nginx/sites-available/$STORE.$EXT
+       sed -i 's/_EXT_/'"$EXT"'/g' etc/nginx/sites-available/$STORE.$EXT
        sed -i 's/_CONTAINER_STORE_1_/'"$STORE"'/g' docker-compose.yml
        mkdir www_$STORE
        cat templates/index_template >> www_$STORE/index.php
@@ -44,7 +46,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
        chown www-data. etc/nginx/sites-available/*
        chown -R $USUARIO.www-data www_$STORE
        chmod -R 775 www_$STORE
-       echo "127.0.0.1   ${STORE}.com" >> /etc/hosts
+       echo "127.0.0.1   ${STORE}.$EXT" >> /etc/hosts
     fi
   
 fi
