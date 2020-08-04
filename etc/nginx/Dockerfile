@@ -2,6 +2,13 @@ FROM alpine:3.7
 
 MAINTAINER EgoFelix <docker@egofelix.de>
 
+# ensure www-data user exists
+RUN set -x ; \
+  addgroup -g 82 -S www-data ; \
+  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+	
+# 82 is the standard uid/gid for "www-data" in Alpine
+
 # Install nginx
 RUN apk --no-cache add \
     nginx nginx-mod-stream \

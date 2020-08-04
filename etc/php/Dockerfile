@@ -1,68 +1,69 @@
-FROM php:7.1-fpm-alpine3.4
+FROM php:7.1.14-fpm
+#FROM php:7.3.6-fpm
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libcurl4-gnutls-dev \
+        libxml2-dev \
+        libbz2-dev \
+        re2c \
+        libpng++-dev \
+        libjpeg-dev \
+        libvpx-dev \
+        zlib1g-dev \
+        libgd-dev \
+        libssl-dev \
+        libtidy-dev \
+        libxslt1-dev \
+        libmagic-dev \
+        libexif-dev \
+        file \
+        libssh2-1-dev \
+        git \
+        wget    \
+        sqlite3 \
+        libsqlite3-dev \
+        libgmp-dev \
+        libmemcached-dev \
+        memcached \
 
-MAINTAINER Lyberteam <lyberteamltd@gmail.com>
-LABEL Vendor="Lyberteam"
-LABEL Description="PHP-FPM v7.1.4-alpine"
-LABEL Version="1.0.1"
+    && docker-php-ext-install json \
+    && docker-php-ext-install mbstring \
+    && docker-php-ext-install tokenizer \
+    && docker-php-ext-install gmp \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install curl \
+    && docker-php-ext-install dom \
+    && docker-php-ext-install bz2 \
+    && docker-php-ext-install mysqli \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install phar \
+    && docker-php-ext-install posix \
+    && docker-php-ext-install simplexml \
+    && docker-php-ext-install soap \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-install tidy \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install calendar \
+    && docker-php-ext-install ctype \
+    && docker-php-ext-install exif \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install pdo_sqlite \
+    && docker-php-ext-install opcache \
 
-RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
-    nano mysql-client curl mc libmcrypt libmcrypt-dev libxml2-dev g++ make autoconf  sqlite sqlite-dev \
-    && docker-php-ext-configure gd \
-        --with-gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-    && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
-    && docker-php-ext-install -j${NPROC} gd mcrypt pdo pdo_mysql pdo_sqlite soap bcmath mbstring opcache \
-    && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev \
-    && docker-php-source extract delete \
-    && apk del --no-cache freetype freetype-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev \
-    && rm -rf /tmp/* \
-    && rm -f /usr/local/etc/php-fpm.d/www.conf.default \
-    && rm -f /usr/local/etc/php-fpm.d/www.conf \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ADD www.conf /usr/local/etc/php-fpm.d/
-COPY php.ini /usr/local/etc/php/
-COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-
-USER www-data
-
-CMD ["php-fpm"]
-
-## Let's set the working dir
-WORKDIR /var/www/html/
-
-EXPOSE 9000
-
-#
-######################################## Other extensions ########################################
-# Install composer globally
-#RUN echo "Install composer globally"
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
-#
-## Install phpredis 2.2.7
-#RUN apt-get install -y unzip
-#WORKDIR /root
-#COPY phpredis-2.2.7.zip phpredis-2.2.7.zip
-#RUN unzip phpredis-2.2.7.zip
-#WORKDIR phpredis-2.2.7
-#RUN phpize
-#RUN ./configure
-#RUN make && make install
-##RUN cp /root/phpredis-2.2.7/modules/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
-#RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini
-#
-## Install memcached
-#COPY memcached-2.2.0.zip memcached-2.2.0.zip
-#RUN apt-get install -y libmemcached-dev zlib1g-dev libncurses5-dev
-#RUN mkdir /usr/src/php/ext/memcached-2.2.0
-#RUN unzip memcached-2.2.0.zip -d /usr/src/php/ext/memcached-2.2.0
-#RUN rm memcached-2.2.0.zip
-#RUN docker-php-ext-install memcached-2.2.0
-#
-## Install mongo
-##RUN pecl install mongodb-beta
-##RUN echo "extension=mongo.so" > /usr/local/etc/php/conf.d/mongo.ini
-######################################## Other extensions ########################################
-
+    #&& pecl install xdebug && docker-php-ext-enable xdebug \
+    && pecl install memcached && docker-php-ext-enable memcached \
+    #&& pecl install mongodb && docker-php-ext-enable mongodb \
+    #&& pecl install redis && docker-php-ext-enable redis \
+    && pecl install mcrypt-1.0.0 && docker-php-ext-enable mcrypt \
+    && docker-php-source delete \
+    && apt-get remove -y g++ wget \
+    && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/* \
+    && rm -f /usr/local/etc/php-fpm.d/www.conf.default
