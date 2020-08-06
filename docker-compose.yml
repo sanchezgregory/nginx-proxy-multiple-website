@@ -41,7 +41,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - ./mysqldb:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpw
     ports:
