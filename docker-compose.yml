@@ -21,6 +21,7 @@ services:
       - mysqldb
       - php-fpm
       - store_spv-store
+      - store_tclic-store
       #new_services
     volumes:
       - cache:/var/cache
@@ -32,6 +33,7 @@ services:
       - ./templates/backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
       - ./www_spv-store:/var/www/html/www_spv-store
+      - ./www_tclic-store:/var/www/html/www_tclic-store
       #new_volumens
     networks:
       - dockernet
@@ -58,6 +60,7 @@ services:
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./www_spv-store:/var/www/html/www_spv-store
+      - ./www_tclic-store:/var/www/html/www_tclic-store
       #new_volumens
     depends_on:
       - mysqldb
@@ -70,5 +73,13 @@ services:
       - php-fpm
       - mysqldb
     working_dir: /var/www/html/www_spv-store
+    networks:
+      - dockernet
+  store_tclic-store:
+    image: tianon/true #minimal image
+    depends_on:
+      - php-fpm
+      - mysqldb
+    working_dir: /var/www/html/www_tclic-store
     networks:
       - dockernet
