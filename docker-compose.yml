@@ -8,7 +8,6 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-
 services:
   #nginx
   nginx:
@@ -21,6 +20,7 @@ services:
     depends_on:
       - mysqldb
       - php-fpm
+      - store_spv-store
       #new_services
     volumes:
       - cache:/var/cache
@@ -31,6 +31,7 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./templates/backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
+      - ./www_spv-store:/var/www/html/www_spv-store
       #new_volumens
     networks:
       - dockernet
@@ -56,9 +57,18 @@ services:
       - ./cache:/var/cache
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www_spv-store:/var/www/html/www_spv-store
       #new_volumens
     depends_on:
       - mysqldb
     networks:
       - dockernet
   #Proyects
+  store_spv-store:
+    image: tianon/true #minimal image
+    depends_on:
+      - php-fpm
+      - mysqldb
+    working_dir: /var/www/html/www_spv-store
+    networks:
+      - dockernet
