@@ -3,7 +3,6 @@
     image: tianon/true #minimal image
     depends_on:
       - php-fpm
-      - mysqldb
     working_dir: /var/www/html/www__CONTAINER_STORE_1_
     networks:
       - dockernet

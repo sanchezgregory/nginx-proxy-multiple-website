@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  dockernet:
+  my-network:
     external: true
 volumes:
   cache:
@@ -18,10 +18,8 @@ services:
       - '80:80'
       - '443:443'
     depends_on:
-      - mysqldb
       - php-fpm
-      - store_spv-store
-      - store_tclic-store
+      - store_icbc-local
       #new_services
     volumes:
       - cache:/var/cache
@@ -32,25 +30,24 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./templates/backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
-      - ./www_spv-store:/var/www/html/www_spv-store
-      - ./www_tclic-store:/var/www/html/www_tclic-store
+      - ./www_icbc-local:/var/www/html/www_icbc-local
       #new_volumens
     networks:
-      - dockernet
+      - my-network
   # databases
-  mysqldb:
-    build: etc/mysql
-    container_name: mysqldb
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    volumes:
-      - ./mysqldb:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpw
-    ports:
-      - '3000:3306'
-    networks:
-      - dockernet
+  #mysqldb:
+  #  build: etc/mysql
+  #  container_name: mysqldb
+  #  command: --default-authentication-plugin=mysql_native_password
+  #  restart: always
+  #  volumes:
+  #    - ./mysqldb:/var/lib/mysql
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: rootpw
+  #  ports:
+  #    - '3000:3306'
+  #  networks:
+  #    - my-network
   php-fpm:
     build: etc/php
     container_name: php-fpm
@@ -59,27 +56,15 @@ services:
       - ./cache:/var/cache
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./www_spv-store:/var/www/html/www_spv-store
-      - ./www_tclic-store:/var/www/html/www_tclic-store
+      - ./www_icbc-local:/var/www/html/www_icbc-local
       #new_volumens
-    depends_on:
-      - mysqldb
     networks:
-      - dockernet
+      - my-network
   #Proyects
-  store_spv-store:
+  store_icbc-local:
     image: tianon/true #minimal image
     depends_on:
       - php-fpm
-      - mysqldb
-    working_dir: /var/www/html/www_spv-store
+    working_dir: /var/www/html/www_icbc-local
     networks:
-      - dockernet
-  store_tclic-store:
-    image: tianon/true #minimal image
-    depends_on:
-      - php-fpm
-      - mysqldb
-    working_dir: /var/www/html/www_tclic-store
-    networks:
-      - dockernet
+      - my-network
