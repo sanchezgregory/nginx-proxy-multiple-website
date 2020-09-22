@@ -1,14 +1,14 @@
 ## Multi Sites Docker with nginx reverse configuration
 
-Configura multiples sites con una misma intancia de Docker
+Configura multiples sites con una misma intancia de Docker de Nginx y php-Fpm
 
-### Consiraciones
+### Consideraciones
 
-1. Usa una sola imagen de php-fpm sin importar la cantidad de proyectos ya que usa para cada uno de los proyecto de manera individual, una imagen de docker conocida como tianon, solo son 125 bytes para permitir levantar un servicio que permite montar volumenes.  También usa una sola imagane de mysql, y el servicio de php-fpm lo usa para todos sus proyectos individuales.
+1. Usa una sola imagen de php-fpm sin importar la cantidad de proyectos ya que usa para cada uno de los proyecto de manera individual, una imagen de docker conocida como tianon, solo son 125 bytes para permitir levantar un servicio que permite montar volumenes.  También usa una sola imagane de mysql de manera independiente, y el servicio de php-fpm lo usa para todos sus proyectos individuales en conjunto con Nginx
 
 2. Es necesario ejecutar el script como superusuario, ya que necesita escribir en el archivo /etc/hosts para agregar la ip local y el nombre de dominio para el nombre de entorno
 
-3. La ejecución del script solo pide el nombre del entorno a levantar y su nombre de usuario del sistema, se recomienda como nombre de entorno, los nombres de la tienda, (una sola palabra), ej icbc, bbva, spv, bsf, etc
+3. La ejecución del script solo pide el nombre del entorno a levantar y su nombre de usuario del sistema, se recomienda como nombre de entorno, los nombres de la tienda con alguna terminacion propia, como local o dev por ej.  icbclocal, bbvalocal, spvlocal, bsfdevlocal, etc
 
 4. El script, una vez insertado los valores anteriores, modificará automaticamente el archivo docker-compose.yml ajustando los nuevos valores, volumens y el nuevo servicio para el proyecto, igualmente creará un nuevo archivo para la configuración del virtual host dentro de etc/nginx/sites-availabe/entorno.com, finalmente se creará un directorio llamado www_entorno con un archivo index.php de ejemplo, que permitirá detectar que todo está andando al 100% una vez se levante el docker-compose up -d
 
@@ -17,7 +17,7 @@ Configura multiples sites con una misma intancia de Docker
 
 ### Agregando mas sitios
 
-Ejecuta el script para agregar otro proyecto, recuerda que no se usan puertos y que el puerto 9000 lo usa `fastcgi_pass`. y el 9000 for `visualizer`
+Ejecuta el script para agregar otro proyecto, recuerda que no se usan puertos y que el puerto 9000 lo usa `fastcgi_pass`.
 
 ## Instalacion
 
@@ -37,13 +37,8 @@ A short snippet describing the license (MIT, Nginx, php etc)
 
 Los puertos utilizados son el 3000 para el acceso de la BD desde afuera del docker, por ejemplo desde workbench usando el server name 127.0.0.1, el user y el password es root
 
-Visualizer usa el puerto 9999 y `fastcgi_pass` el puerto 9000, de resto ninguno de los proyecto usan puertos. por defecto todo se redirige al 443
-
-Use 8xxx port range for all wordpress apps, except 8080 which is used for `docker-visualizer`.
-Port 9000 is used by .
-
 ## Access y Error Logs
-Los logs de accesos y errores de Nginx se encuentran mapeados en logs, en el root de este proyecto.
+Los logs de accesos y errores de Nginx se encuentran mapeados en logs, en el directorio raía de este proyecto.
 
 ## INICIO PASOS ENTORNO 1.6
 
