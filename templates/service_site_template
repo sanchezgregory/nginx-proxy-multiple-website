@@ -5,4 +5,4 @@
       - php-fpm
     working_dir: /var/www/html/www__CONTAINER_STORE_1_
     networks:
-      - dockernet
+      - my-network
