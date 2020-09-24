@@ -8,8 +8,7 @@ then
   echo "Se debe ejecutar como root (sudo)."
   exit 1
 fi
-PHPFPM71="php71-fpm"
-PHPFPM73="php73-fpm"
+
 response="true"
 EXT="com"
 COMPLEMENTO="-local"
@@ -48,6 +47,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
         read VERSION
         echo ""
 
+        mkdir etc/nginx/sites-available
         echo $STORE >> stores_done.txt
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         cat templates/service_site_template >> docker-compose.yml
