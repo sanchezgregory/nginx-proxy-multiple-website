@@ -29,6 +29,7 @@ services:
       - ./includes:/etc/nginx/includes/
       - ./templates/backend-not-found.html:/var/www/html/backend-not-found.html
       - ./logs:/var/log/nginx
+      - ./www_tiendaclic:/var/www/html/www_tiendaclic
       #new_volumens
     networks:
       - my-network
@@ -40,7 +41,15 @@ services:
       - ./cache:/var/cache
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www_tiendaclic:/var/www/html/www_tiendaclic
       #new_volumens
     networks:
       - my-network
   #Proyects
+  store_tiendaclic:
+    image: tianon/true #minimal image
+    depends_on:
+      - php-fpm
+    working_dir: /var/www/html/www_tiendaclic
+    networks:
+      - my-network
