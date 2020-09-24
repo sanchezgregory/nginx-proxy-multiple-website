@@ -4,5 +4,6 @@ www_*/*
 !logs/.gitkeep
 stores_done.txt
 www_*
+etc/nginx/sites-available/*
 cache/*
 supervielle
