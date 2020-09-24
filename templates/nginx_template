@@ -1,22 +1,22 @@
 ###############################################################
-####### Configuracion Nginx para _CONTAINER_STORE_1_ ##########
+####### Configuracion Nginx para _CONTAINER_STORE_ ##########
 ###############################################################
-#upstream _CONTAINER_STORE_1_ {
-#    server  _CONTAINER_STORE_1_._EXT_;  
+#upstream _CONTAINER_STORE_ {
+#    server  _PROYECT_NAME_COMPLETE_._EXT_;  
 #}
 
 #server {
 #  listen 80;
-#  server_name _CONTAINER_STORE_1_._EXT_;
-#  root /var/www/html/www__CONTAINER_STORE_1_;
+#  server_name _PROYECT_NAME_COMPLETE_._EXT_;
+#  root /var/www/html/www__CONTAINER_STORE_;
 #  index index.html index.htm index.php;
-#  return 301 https://_CONTAINER_STORE_1_._EXT_$request_uri;   
+#  return 301 https://_PROYECT_NAME_COMPLETE_._EXT_$request_uri;   
 #}
 
 server {
 
   listen 80;
-  server_name _CONTAINER_STORE_1_._EXT_;
+  server_name _PROYECT_NAME_COMPLETE_._EXT_;
   #fastcgi_param HTTPS on;
 
   #ssl_certificate /etc/ssl/server.pem;
@@ -27,10 +27,10 @@ server {
   error_log  /var/log/nginx/error.log;
   access_log /var/log/nginx/access.log;
 
-  root /var/www/html/www__CONTAINER_STORE_1_;
+  root /var/www/html/www__CONTAINER_STORE_;
 
   location \ {
-    #proxy_pass  http://_CONTAINER_STORE_1_;
+    #proxy_pass  http://_CONTAINER_STORE_;
     include /etc/nginx/includes/proxy.conf;
     try_files $uri $uri/ /index.php?q=$uri&$args;
   }

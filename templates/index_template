@@ -24,11 +24,11 @@ try {
 <html>
 <head>
 	<title>
-		ENTORNO DE _CONTAINER_STORE_1_
+		ENTORNO DE _CONTAINER_STORE_
 	</title>
 </head>
 <body>
-	<H2>_CONTAINER_STORE_1_ listo solo si la conexión a la DB está OK.</H2>
+	<H2>_CONTAINER_STORE_ listo solo si la conexión a la DB está OK.</H2>
 </body>
 </html>
 

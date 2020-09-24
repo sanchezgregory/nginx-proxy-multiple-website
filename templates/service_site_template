@@ -1,8 +1,8 @@
 
-  store__CONTAINER_STORE_1_:
+  store__CONTAINER_STORE_:
     image: tianon/true #minimal image
     depends_on:
       - php-fpm
-    working_dir: /var/www/html/www__CONTAINER_STORE_1_
+    working_dir: /var/www/html/www__CONTAINER_STORE_
     networks:
       - my-network
