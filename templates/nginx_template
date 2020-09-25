@@ -35,7 +35,7 @@ server {
     try_files $uri $uri/ /index.php?q=$uri&$args;
   }
   location ~ \.php$ {
-    fastcgi_pass php-fpm:9000;
+    fastcgi_pass _PHPFPM_:9000;
     include /etc/nginx/includes/site.conf;
   }
   location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml)$ {

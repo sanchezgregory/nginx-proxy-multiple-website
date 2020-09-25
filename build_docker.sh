@@ -63,9 +63,15 @@ if [ chrlen=${#STORE} \> 0 ]; then
 
         if [[ $VERSION = "1" ]]; then
          cat templates/Dockerfile_php71 >> etc/php/Dockerfile
+         sed -i 's/_NGINX_/nginx71/g' docker-compose.yml
+         sed -i 's/_PHPFPM_/php-fpm71/g' docker-compose.yml
+         sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         fi
         if [[ $VERSION = "2" ]]; then
          cat templates/Dockerfile_php73 >> etc/php/Dockerfile
+         sed -i 's/_NGINX_/nginx73/g' docker-compose.yml
+         sed -i 's/_PHPFPM_/php-fpm73/g' docker-compose.yml
+         sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         fi
          
         chown www-data. etc/nginx/sites-available/*

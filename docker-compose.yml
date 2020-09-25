@@ -10,7 +10,7 @@ volumes:
       device: tmpfs
 services:
   #nginx
-  nginx:
+  _NGINX_:
     build: etc/nginx
     container_name: nginx
     restart: always
@@ -32,7 +32,7 @@ services:
       #new_volumens
     networks:
       - my-network
-  php-fpm:
+  _PHPFPM_:
     build: etc/php
     container_name: php-fpm
     restart: always
