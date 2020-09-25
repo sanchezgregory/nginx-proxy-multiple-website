@@ -12,7 +12,7 @@ services:
   #nginx
   _NGINX_:
     build: etc/nginx
-    container_name: nginx
+    container_name: _NGINX_
     restart: always
     ports:
       - '80:80'
