@@ -34,7 +34,7 @@ services:
       - my-network
   _PHPFPM_:
     build: etc/php
-    container_name: php-fpm
+    container_name: _PHPFPM_
     restart: always
     volumes:
       - ./cache:/var/cache
