@@ -15,8 +15,7 @@ services:
     container_name: _NGINX_
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
+      - '_PORT_:80'
     depends_on:
       - _PHPFPM_
       #new_services

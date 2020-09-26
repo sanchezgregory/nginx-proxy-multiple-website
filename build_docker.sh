@@ -32,8 +32,6 @@ echo ""
 
 if [ chrlen=${#STORE} \> 0 ]; then
 
-    EXIST=$(grep -i ${STORE,,} stores_done.txt)
-
     if [ chrlen=${#EXIST} == 0 ]; then
 
         echo "El entorno que intenta montar, ya esta agregado " $STORE 
@@ -48,7 +46,6 @@ if [ chrlen=${#STORE} \> 0 ]; then
         echo ""
 
         mkdir etc/nginx/sites-available
-        echo $STORE >> stores_done.txt
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         cat templates/service_site_template >> docker-compose.yml
         sed -i 's/_PROYECT_NAME_COMPLETE_/'"$STORE$COMPLEMENTO"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
@@ -65,12 +62,14 @@ if [ chrlen=${#STORE} \> 0 ]; then
          cat templates/Dockerfile_php71 >> etc/php/Dockerfile
          sed -i 's/_NGINX_/nginx71/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm71/g' docker-compose.yml
+         sed -i 's/_PORT_/8071/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         fi
         if [[ $VERSION = "2" ]]; then
          cat templates/Dockerfile_php73 >> etc/php/Dockerfile
          sed -i 's/_NGINX_/nginx73/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm73/g' docker-compose.yml
+         sed -i 's/_PORT_/8073/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         fi
          
@@ -78,8 +77,14 @@ if [ chrlen=${#STORE} \> 0 ]; then
         chown -R $USUARIO.www-data www_$STORE
         chmod -R 775 www_$STORE
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
+
       else
-        echo $STORE >> stores_done.txt
+
+        echo "Si es Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2"
+        echo ""
+        read VERSION
+        echo ""
+
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         cat templates/service_site_template >> docker-compose.yml
         sed -i 's/_PROYECT_NAME_COMPLETE_/'"$STORE$COMPLEMENTO"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
@@ -96,6 +101,14 @@ if [ chrlen=${#STORE} \> 0 ]; then
         chown -R $USUARIO.www-data www_$STORE
         chmod -R 775 www_$STORE
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
+
+        if [[ $VERSION = "1" ]]; then
+         sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
+        fi
+        if [[ $VERSION = "2" ]]; then
+         sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
+        fi
+
       fi
     fi
 fi
