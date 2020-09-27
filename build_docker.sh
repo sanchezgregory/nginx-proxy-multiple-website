@@ -11,7 +11,6 @@ then
   exit 1
 fi
 
-response="true"
 EXT="com"
 COMPLEMENTO="-local"
 
@@ -60,7 +59,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
          sed -i 's/_PHPFPM_/php-fpm71/g' docker-compose.yml
          sed -i 's/_PORT_/8071/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
-         sed -i 's/_VERSION_USED_/php-fpm71/g' build_docker.sh
+         sed -i 's/VERSIONUSED="_VERSION_USED_"/VERSIONUSED="php-fpm71"/g' build_docker.sh
 
         fi
         if [[ $VERSION = "2" ]]; then
@@ -69,7 +68,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
          sed -i 's/_PHPFPM_/php-fpm73/g' docker-compose.yml
          sed -i 's/_PORT_/8073/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
-         sed -i 's/_VERSION_USED_/php-fpm73/g' build_docker.sh
+         sed -i 's/VERSIONUSED="_VERSION_USED_"/VERSIONUSED="php-fpm73"/g' build_docker.sh
 
         fi
          
@@ -80,11 +79,11 @@ if [ chrlen=${#STORE} \> 0 ]; then
 
     else
 
-        if [[ $VERSIONUSED = "php_fpm71" ]]; then
-          echo "*** Hemos verificado que este es un entorno para PRESTASHOP 1.6 (php71) *** "
+        if [[ $VERSIONUSED = "php-fpm71" ]]; then
+          echo "*** Hemos verificado que este es un entorno para PRESTASHOP 1.6 (php 7.1.26) *** "
         fi
-        if [[ $VERSIONUSED = "php_fpm73" ]]; then
-          echo "*** Hemos verificado que este es un entorno para PRESTASHOP 1.7 (php73) *** "
+        if [[ $VERSIONUSED = "php-fpm73" ]]; then
+          echo "*** Hemos verificado que este es un entorno para PRESTASHOP 1.7 (php 7.3.22) *** "
         fi
 
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
