@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# autor:  Gregory Sánchez 2020
+
 # Verificamos que el usuario este NO rooteado
 if [[ "${UID}" -ne 0 ]] 
 then
@@ -104,6 +106,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
         sed -i 's/_PHPFPM_/'"$VERSIONUSED"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
     fi
+
   echo "************************************************************************"
   echo "************************************************************************"
   echo "Desea construir su entorno ya? Escriba 1 para SI || Escriba 2 para NO)"
@@ -119,10 +122,10 @@ if [ chrlen=${#STORE} \> 0 ]; then
     echo "************************************************************************"
     echo ""
 
-    if [[ $VERSION = "1" ]]; then
+    if [[ $VERSIONUSED = "php-fpm71" ]]; then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8071"
     fi
-    if [[ $VERSION = "2" ]]; then
+    if [[ $VERSIONUSED = "php-fpm73" ]]; then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8073"
     fi
     
@@ -141,8 +144,19 @@ if [ chrlen=${#STORE} \> 0 ]; then
       echo "************************************************************************"
       echo "************************************************************************"
 
-      echo " %%%% Exito, empiece a migrar sus archivos al directorio: www_$STORE"
-      echo " %%%% luego levante el docker nuevamente usando docker-compose up  %%%% "
+      if [[ $VERSIONUSED = "php-fpm71" ]]; then
+        echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/config/settings.inc.php"
+      fi
+      if [[ $VERSIONUSED = "php-fpm73" ]]; then
+        echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/app/parameters.php"
+      fi
+
+      echo "DB_SERVER debe ser = define('_DB_SERVER_', 'mysqldb')"
+      echo "DB_USER debe ser = define('_DB_USER_', 'root')"
+      echo "DB_PASSWD debe ser = define('_DB_PASSWD_', 'root')"
+      echo "DB_NAME debe ser = define('_DB_NAME_', '"$STORE"-local') * el nombre de la DB pepende del nombre que ud haya creado"
+      
+      echo " ---- Finalmente, levante el docker usando docker-compose up ---- "
       
       echo "************************************************************************"
       echo "************************************************************************"
