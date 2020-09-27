@@ -145,7 +145,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
 
       echo "************************************************************************"
       echo "************************************************************************"
-
+      echo ""
       if [ $VERSIONUSED == "php-fpm71" ] || [ $VERSION == "1" ]
       then
         echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/config/settings.inc.php"
@@ -155,13 +155,14 @@ if [ chrlen=${#STORE} \> 0 ]; then
         echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/app/parameters.php"
       fi
 
+      echo ""
       echo "DB_SERVER debe ser = define('_DB_SERVER_', 'mysqldb')"
       echo "DB_USER debe ser = define('_DB_USER_', 'root')"
       echo "DB_PASSWD debe ser = define('_DB_PASSWD_', 'root')"
       echo "DB_NAME debe ser = define('_DB_NAME_', '"$STORE"-local') * el nombre de la DB pepende del nombre que ud haya creado"
-      
-      echo " ---- Finalmente, levante el docker usando docker-compose up ---- "
-      
+      echo ""
+      echo "---- Finalmente, levante el docker usando docker-compose up ---- "
+      echo ""
       echo "************************************************************************"
       echo "************************************************************************"
     fi
