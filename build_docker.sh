@@ -2,7 +2,7 @@
 
 # Verificamos que el usuario este NO rooteado
 
-versionUsed = _VERSION_USED_
+VERSIONUSED="_VERSION_USED_"
 
 if [[ "${UID}" -ne 0 ]] 
 then
@@ -34,9 +34,9 @@ echo ""
 
 if [ chrlen=${#STORE} \> 0 ]; then
 
-    if [[ $versionUsed = "_VERSION_USED_" ]]; then
+    if [[ $VERSIONUSED = "_VERSION_USED_" ]]; then
 
-        echo "Entornos con Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2"
+        echo ":::: Entornos con Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2  :::::"
         echo ""
         read VERSION
         echo ""
@@ -76,7 +76,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
         chmod -R 775 www_$STORE
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
 
-      else
+    else
 
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         cat templates/service_site_template >> docker-compose.yml
