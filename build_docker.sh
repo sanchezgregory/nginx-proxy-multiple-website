@@ -104,4 +104,48 @@ if [ chrlen=${#STORE} \> 0 ]; then
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
         sed -i 's/_PHPFPM_/'"$VERSIONUSED"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
     fi
+  echo "************************************************************************"
+  echo "************************************************************************"
+  echo "Desea construir su entorno ya? Escriba 1 para SI || Escriba 2 para NO)"
+  read CONSTR
+  echo "************************************************************************"
+  echo "************************************************************************"
+
+  if [[ $CONSTR = "1" ]]; then
+    
+    docker-compose up --build -d
+
+    echo "************************************************************************"
+    echo "************************************************************************"
+    echo ""
+
+    if [[ $VERSIONUSED = "php-fpm71" ]]; then
+      echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8071"
+    fi
+    if [[ $VERSIONUSED = "php-fpm73" ]]; then
+      echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8073"
+    fi
+    
+    echo ""
+    echo "Si ve: Connected successfully - OK, presione 1"
+    echo ""
+    read ISFINE
+    echo ""
+    echo "************************************************************************"
+    echo "************************************************************************"
+    if [[ $ISFINE = "1" ]]; then
+
+      rm www_$STORE/index.php
+      docker-compose down
+
+      echo "************************************************************************"
+      echo "************************************************************************"
+
+      echo " %%%% Exito, empiece a migrar sus archivos al directorio: www_$STORE"
+      echo " %%%% luego levante el docker nuevamente usando docker-compose up  %%%% "
+      
+      echo "************************************************************************"
+      echo "************************************************************************"
+    fi
+  fi  
 fi
