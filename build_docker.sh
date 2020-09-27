@@ -2,6 +2,8 @@
 
 # Verificamos que el usuario este NO rooteado
 
+versionUsed = _VERSION_USED_
+
 if [[ "${UID}" -ne 0 ]] 
 then
   echo ""
@@ -17,9 +19,9 @@ echo ""
 echo " ****** LEA BIEN LAS INDICACIONES, NO HAGA TODO A LAS APURADAS ****** "
 echo ""
 echo ""
-echo "Si es la primera vez que levantará este docker presione 1, si ya lo tiene creado pero instalará otro proyecto presione 2"
-echo ""
-read MOMENTO
+echo "Recuerde que el puerto para entornos con PS 1.6 es 8071 y para PS 1.7.5.2 es 8073"
+echo "* si ha creado el entorno de icbc, en la url deberá escribir: http://icbc-local.com:8071"
+echo "* si ha creado el entorno de itau, en la url deberá escribir: http://itau-local.com:8073"
 echo ""
 echo "Escriba nombre del store para el entorno, ej [icbc, tclic, spv, bbva, itau, galicia, etc] "
 echo ""
@@ -32,13 +34,7 @@ echo ""
 
 if [ chrlen=${#STORE} \> 0 ]; then
 
-    if [ chrlen=${#EXIST} == 0 ]; then
-
-        echo "El entorno que intenta montar, ya esta agregado " $STORE 
-
-    else
-
-      if [[ $MOMENTO = "1"  ]]; then
+    if [[ $versionUsed = "_VERSION_USED_" ]]; then
 
         echo "Entornos con Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2"
         echo ""
@@ -64,6 +60,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
          sed -i 's/_PHPFPM_/php-fpm71/g' docker-compose.yml
          sed -i 's/_PORT_/8071/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
+         sed -i 's/_VERSION_USED_/php-fpm71/g' build_docker.sh
         fi
         if [[ $VERSION = "2" ]]; then
          cat templates/Dockerfile_php73 >> etc/php/Dockerfile
@@ -71,6 +68,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
          sed -i 's/_PHPFPM_/php-fpm73/g' docker-compose.yml
          sed -i 's/_PORT_/8073/g' docker-compose.yml
          sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
+         sed -i 's/_VERSION_USED_/php-fpm73/g' build_docker.sh
         fi
          
         chown www-data. etc/nginx/sites-available/*
@@ -79,11 +77,6 @@ if [ chrlen=${#STORE} \> 0 ]; then
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
 
       else
-
-        echo "Si es Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2"
-        echo ""
-        read VERSION
-        echo ""
 
         cat templates/nginx_template >> etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
         cat templates/service_site_template >> docker-compose.yml
@@ -101,14 +94,7 @@ if [ chrlen=${#STORE} \> 0 ]; then
         chown -R $USUARIO.www-data www_$STORE
         chmod -R 775 www_$STORE
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
-
-        if [[ $VERSION = "1" ]]; then
-         sed -i 's/_PHPFPM_/php-fpm71/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
-        fi
-        if [[ $VERSION = "2" ]]; then
-         sed -i 's/_PHPFPM_/php-fpm73/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
-        fi
-
+        sed -i 's/_PHPFPM_/'"$versionUsed"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
       fi
     fi
 fi
