@@ -146,10 +146,12 @@ if [ chrlen=${#STORE} \> 0 ]; then
       echo "************************************************************************"
       echo "************************************************************************"
 
-      if [[ $VERSIONUSED = "php-fpm71" ]]; then
+      if [ $VERSIONUSED == "php-fpm71" ] || [ $VERSION == "1" ]
+      then
         echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/config/settings.inc.php"
       fi
-      if [[ $VERSIONUSED = "php-fpm73" ]]; then
+      if [ $VERSIONUSED == "php-fpm73" ] || [ $VERSION == "2" ]
+      then
         echo "Muy bien, ahora empiece a migrar sus archivos al directorio: www_$STORE, y edite el archivo www_$STORE/app/parameters.php"
       fi
 
