@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # Verificamos que el usuario este NO rooteado
-
-VERSIONUSED="_VERSION_USED_"
-
 if [[ "${UID}" -ne 0 ]] 
 then
   echo ""
@@ -11,22 +8,23 @@ then
   exit 1
 fi
 
+VERSIONUSED="_VERSION_USED_"
 EXT="com"
 COMPLEMENTO="-local"
 
 echo ""
-echo " ****** LEA BIEN LAS INDICACIONES, NO HAGA TODO A LAS APURADAS ****** "
+echo " ****** LEA BIEN LAS INDICACIONES, NO HAGA TODO A LAS APURADAS, SON MUY POCOS PASOS ****** "
 echo ""
 echo ""
-echo "Recuerde que el puerto para entornos con PS 1.6 es 8071 y para PS 1.7.5.2 es 8073"
-echo "* si ha creado el entorno de icbc, en la url deberá escribir: http://icbc-local.com:8071"
-echo "* si ha creado el entorno de itau, en la url deberá escribir: http://itau-local.com:8073"
+echo "[1] Recuerde que el puerto para entornos con PS 1.6 es 8071 y para PS 1.7.5.2 es 8073"
+echo "[2] Cada vez que cree un entorno con un determinado nombre, a éste se le agrega el sufijo -local.com"
+echo "[3] Ejemplo: Si ha creado el entorno con el nombre itau, en la url deberá escribir: http://itau-local.com:8073"
 echo ""
-echo "Escriba nombre del store para el entorno, ej [icbc, tclic, spv, bbva, itau, galicia, etc] "
+echo "PASO 1 .- Escriba nombre del store para el entorno, ej [icbc, tclic, spv, bbva, itau, galicia, etc] "
 echo ""
 read STORE
 echo ""
-echo "Escriba su nombre de usuario del sistema: "
+echo "PASO 2 .- Escriba su nombre de usuario del sistema (necesario para ejecutar sudo) "
 echo ""
 read USUARIO
 echo ""
@@ -35,7 +33,9 @@ if [ chrlen=${#STORE} \> 0 ]; then
 
     if [[ $VERSIONUSED = "_VERSION_USED_" ]]; then
 
-        echo ":::: Entornos con Prestahop1.6 presione 1 ::: Prestahop1.7 presion 2  :::::"
+        echo "PASO 3 .- Este paso sólo se ejecuta la primera vez dependiendo del tipo de entorno"
+        echo "PRESIONE 1 para entornos con Prestahop 1.6"
+        echo "PRESIONE 2 para entornos con Prestahop 1.7"
         echo ""
         read VERSION
         echo ""
@@ -119,10 +119,10 @@ if [ chrlen=${#STORE} \> 0 ]; then
     echo "************************************************************************"
     echo ""
 
-    if [[ $VERSIONUSED = "php-fpm71" ]]; then
+    if [[ $VERSION = "1" ]]; then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8071"
     fi
-    if [[ $VERSIONUSED = "php-fpm73" ]]; then
+    if [[ $VERSION = "2" ]]; then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8073"
     fi
     
