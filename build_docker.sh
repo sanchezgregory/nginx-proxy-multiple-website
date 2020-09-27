@@ -122,10 +122,12 @@ if [ chrlen=${#STORE} \> 0 ]; then
     echo "************************************************************************"
     echo ""
 
-    if [[ $VERSIONUSED = "php-fpm71" ]]; then
+    if [ $VERSIONUSED == "php-fpm71" ] || [ $VERSION == "1" ]
+    then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8071"
     fi
-    if [[ $VERSIONUSED = "php-fpm73" ]]; then
+    if [ $VERSIONUSED == "php-fpm73" ] || [ $VERSION == "2" ]
+    then
       echo "Al terminar la construcción abra en el explorador la url: http://$STORE$COMPLEMENTO.$EXT:8073"
     fi
     
