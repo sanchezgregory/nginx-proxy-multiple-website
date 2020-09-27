@@ -95,6 +95,5 @@ if [ chrlen=${#STORE} \> 0 ]; then
         chmod -R 775 www_$STORE
         echo "127.0.0.1   ${STORE}${COMPLEMENTO}.$EXT" >> /etc/hosts
         sed -i 's/_PHPFPM_/'"$versionUsed"'/g' etc/nginx/sites-available/$STORE$COMPLEMENTO.$EXT
-      fi
     fi
 fi
